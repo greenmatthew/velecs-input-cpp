@@ -13,6 +13,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+if(NOT TARGET velecs-common)
+    add_subdirectory(../velecs-common ${CMAKE_BINARY_DIR}/velecs-common)
+endif()
+
 if(NOT TARGET velecs-math)
     add_subdirectory(../velecs-math ${CMAKE_BINARY_DIR}/velecs-math)
 endif()
@@ -20,6 +24,10 @@ endif()
 # Source files for the library
 set(LIB_SOURCES
     src/Input.cpp
+
+    src/ActionProfile.cpp
+    src/ActionMap.cpp
+    src/Action.cpp
 )
 
 # Header files for the library (for IDE organization)
@@ -27,6 +35,12 @@ set(LIB_HEADERS
     include/velecs/input/Common.hpp
     
     include/velecs/input/Input.hpp
+
+    include/velecs/input/ActionProfile.hpp
+    include/velecs/input/ActionMap.hpp
+    include/velecs/input/Action.hpp
+
+    include/velecs/input/Event.hpp
 )
 
 # Always build the library
@@ -39,6 +53,7 @@ target_include_directories(velecs-input
 )
 
 target_link_libraries(velecs-input
+    PUBLIC velecs-common
     PUBLIC velecs-math
 )
 

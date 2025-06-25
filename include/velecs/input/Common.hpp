@@ -11,3 +11,8 @@
 #pragma once
 
 #include "velecs/input/Input.hpp"
+
+#include "velecs/input/ActionProfile.hpp"
+#include "velecs/input/ActionMap.hpp"
+#include "velecs/input/Action.hpp"
+#include "velecs/input/InputBinding.hpp"

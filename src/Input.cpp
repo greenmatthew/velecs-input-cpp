@@ -10,6 +10,12 @@
 
 #include "velecs/input/Input.hpp"
 
+#include "velecs/input/ActionProfile.hpp"
+
+using namespace velecs::common;
+
+#include <iostream>
+
 namespace velecs::input {
 
 // Public Fields
@@ -20,12 +26,64 @@ namespace velecs::input {
 
 void Input::ProcessEvent(const SDL_Event& event)
 {
-
+    switch (event.type)
+    {
+        case SDL_KEYDOWN:
+        {
+            SDL_Scancode scancode = event.key.keysym.scancode;
+            _currDownKeys.emplace(scancode);
+            break;
+        }
+        case SDL_KEYUP:
+        {
+            SDL_Scancode scancode = event.key.keysym.scancode;
+            _currDownKeys.erase(scancode);
+            break;
+        }
+    }
 }
 
 void Input::Update()
 {
+    _prevDownKeys = _currDownKeys;
+}
 
+bool Input::IsStarted(const SDL_Scancode keycode)
+{
+    auto prevIt = _prevDownKeys.find(keycode);
+    bool prevFlag = prevIt != _prevDownKeys.end();
+
+    auto currIt = _currDownKeys.find(keycode);
+    bool currFlag = currIt != _currDownKeys.end();
+
+    return !prevFlag && currFlag;
+}
+
+bool Input::IsPerformed(const SDL_Scancode keycode)
+{
+    auto currIt = _currDownKeys.find(keycode);
+    bool currFlag = currIt != _currDownKeys.end();
+
+    return currFlag;
+}
+
+bool Input::IsCancelled(const SDL_Scancode keycode)
+{
+    auto prevIt = _prevDownKeys.find(keycode);
+    bool prevFlag = prevIt != _prevDownKeys.end();
+
+    auto currIt = _currDownKeys.find(keycode);
+    bool currFlag = currIt != _currDownKeys.end();
+
+    return prevFlag && !currFlag;
+}
+
+ActionProfile& Input::CreateProfile(const std::string& name)
+{
+    auto profile = std::make_unique<ActionProfile>(name, ActionProfile::ConstructorKey{});
+    ActionProfile& profileRef = *profile;
+    auto uuid = _profiles.Add(name, std::move(profile));
+    return profileRef;
 }
 
 // Protected Fields
@@ -33,6 +91,11 @@ void Input::Update()
 // Protected Methods
 
 // Private Fields
+
+std::set<SDL_Scancode> Input::_prevDownKeys;
+std::set<SDL_Scancode> Input::_currDownKeys;
+
+ActionProfileRegistry Input::_profiles;
 
 // Private Methods
 

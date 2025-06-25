@@ -1,4 +1,4 @@
-/// @file    Input.cpp
+/// @file    Input.hpp
 /// @author  Matthew Green
 /// @date    2025-05-26 14:24:26
 /// 
@@ -10,9 +10,21 @@
 
 #pragma once
 
+#include <velecs/common/NameUuidRegistry.hpp>
+
 #include <SDL2/SDL.h>
 
+#include <memory>
+#include <unordered_map>
+#include <set>
+#include <string>
+
 namespace velecs::input {
+
+class ActionProfile;
+
+using ActionProfileRegistry = velecs::common::NameUuidRegistry<std::unique_ptr<ActionProfile>>;
+using Uuid = velecs::common::Uuid;
 
 /// @class Input
 /// @brief Brief description.
@@ -45,6 +57,33 @@ public:
     ///       Must be called before accessing action states for the current frame.
     static void Update();
 
+    static bool IsStarted(const SDL_Scancode keycode);
+    static bool IsPerformed(const SDL_Scancode keycode);
+    static bool IsCancelled(const SDL_Scancode keycode);
+
+    /// @brief Creates a new input profile
+    /// @param name Unique name for the profile
+    /// @throws std::runtime_error if profile with same name already exists
+    static ActionProfile& CreateProfile(const std::string& name);
+
+    /// @brief Attempts to retrieve an existing input profile by UUID
+    /// @param uuid UUID of the profile to retrieve
+    /// @param outProfile Reference to store the profile if found
+    /// @return true if profile was found and outProfile was set, false otherwise
+    inline static bool TryGetProfile(const Uuid& uuid, ActionProfile*& outProfile)
+    {
+        return _profiles.TryGetRef(uuid, outProfile);
+    }
+
+    /// @brief Attempts to retrieve an existing input profile by name
+    /// @param name Name of the profile to retrieve
+    /// @param outProfile Reference to store the profile if found
+    /// @return true if profile was found and outProfile was set, false otherwise
+    inline static bool TryGetProfile(const std::string& name, ActionProfile*& outProfile)
+    {
+        return _profiles.TryGetRef(name, outProfile);
+    }
+
 protected:
     // Protected Fields
 
@@ -52,6 +91,11 @@ protected:
 
 private:
     // Private Fields
+
+    static std::set<SDL_Scancode> _prevDownKeys;
+    static std::set<SDL_Scancode> _currDownKeys;
+
+    static ActionProfileRegistry _profiles;
 
     // Private Methods
 };
