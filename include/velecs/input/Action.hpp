@@ -10,9 +10,8 @@
 
 #pragma once
 
+#include <velecs/common/Event.hpp>
 #include <velecs/common/NameUuidRegistry.hpp>
-
-#include "velecs/input/Event.hpp"
 
 #include <string>
 
@@ -21,6 +20,8 @@ namespace velecs::input {
 class ActionMap;
 class ActionCallback;
 // class InputBinding;
+
+using Event = velecs::common::Event<>;
 
 // using InputBindingRegistry = velecs::common::NameUuidRegistry<std::unique_ptr<InputBinding>>;
 using Uuid = velecs::common::Uuid;
@@ -46,13 +47,13 @@ public:
     // Public Fields
 
     /// @brief Event triggered when the action starts (e.g., button press begins)
-    Event<> started;
+    Event started;
     
     /// @brief Event triggered when the action is performed (e.g., button press completes)
-    Event<> performed;
+    Event performed;
     
     /// @brief Event triggered when the action is cancelled (e.g., button release before completion)
-    Event<> cancelled;
+    Event cancelled;
 
     // Constructors and Destructors
 

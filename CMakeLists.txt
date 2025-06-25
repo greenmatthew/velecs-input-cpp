@@ -39,8 +39,6 @@ set(LIB_HEADERS
     include/velecs/input/ActionProfile.hpp
     include/velecs/input/ActionMap.hpp
     include/velecs/input/Action.hpp
-
-    include/velecs/input/Event.hpp
 )
 
 # Always build the library
