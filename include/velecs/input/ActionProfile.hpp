@@ -22,7 +22,7 @@ namespace velecs::input {
 class ActionMap;
 class Action;
 
-using ActionMapRegistry = velecs::common::NameUuidRegistry<std::unique_ptr<ActionMap>>;
+using ActionMapRegistry = velecs::common::NameUuidRegistry<ActionMap>;
 using Uuid = velecs::common::Uuid;
 
 /// @class ActionProfile
@@ -77,12 +77,20 @@ public:
 
     // Public Methods
 
+    /// @brief Checks if this ActionProfile is currently enabled for input processing
+    /// @return true if the profile is enabled, false otherwise
+    /// @note Both the profile and its ActionMaps must be enabled for actions to be processed
+    /// @see Enable(), Disable()
+    inline bool IsEnabled() const { return _enabled; }
+
     /// @brief Enables this profile, making all its enabled ActionMaps active for input processing
     /// @note Does not modify the ActionMaps or Actions themselves, only affects processing
+    /// @see IsEnabled(), Disable()
     inline void Enable() { _enabled = true; }
     
     /// @brief Disables this profile, causing all its ActionMaps to be ignored during input processing
     /// @note Does not modify the ActionMaps or Actions themselves, only affects processing
+    /// @see IsEnabled(), Enable()
     inline void Disable() { _enabled = false; }
 
     /// @brief Gets the name of this action profile

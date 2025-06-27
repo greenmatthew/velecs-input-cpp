@@ -30,10 +30,8 @@ ActionProfile::~ActionProfile() = default;
 
 ActionProfile& ActionProfile::AddMap(const std::string& name, std::function<void(ActionMap&)> configurator)
 {
-    auto map = std::make_unique<ActionMap>(*this, name, ActionMap::ConstructorKey{});
-    ActionMap* mapPtr = map.get(); // Get raw pointer before moving
-    auto uuid = _maps.Add(name, std::move(map)); // Move into registry
-    configurator(*mapPtr); // Use raw pointer (safe because registry owns it)
+    auto [map, uuid] = _maps.Emplace(name, *this, name, ActionMap::ConstructorKey{});
+    configurator(map);
     return *this;
 }
 

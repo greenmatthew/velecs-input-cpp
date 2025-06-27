@@ -15,4 +15,6 @@
 #include "velecs/input/ActionProfile.hpp"
 #include "velecs/input/ActionMap.hpp"
 #include "velecs/input/Action.hpp"
-#include "velecs/input/InputBinding.hpp"
+
+#include "velecs/input/InputBindings/InputBinding.hpp"
+#include "velecs/input/InputBindings/ButtonBinding.hpp"

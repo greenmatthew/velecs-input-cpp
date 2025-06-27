@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include "velecs/input/InputStatus.hpp"
+
 namespace velecs::input {
 
 /// @class InputBinding
@@ -18,6 +20,8 @@ namespace velecs::input {
 /// Rest of description.
 class InputBinding {
 public:
+    using Status = InputStatus;
+
     // Enums
 
     // Public Fields
@@ -28,9 +32,11 @@ public:
     InputBinding() = default;
 
     /// @brief Default deconstructor.
-    ~InputBinding() = default;
+    virtual ~InputBinding() = default;
 
     // Public Methods
+
+    virtual void Reset() = 0;
 
 protected:
     // Protected Fields

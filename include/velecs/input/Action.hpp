@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include "velecs/input/InputBindings/InputBinding.hpp"
+
 #include <velecs/common/Event.hpp>
 #include <velecs/common/NameUuidRegistry.hpp>
 
@@ -18,12 +20,10 @@
 namespace velecs::input {
 
 class ActionMap;
-class ActionCallback;
-// class InputBinding;
 
 using Event = velecs::common::Event<>;
 
-// using InputBindingRegistry = velecs::common::NameUuidRegistry<std::unique_ptr<InputBinding>>;
+using InputBindingRegistry = velecs::common::NameUuidRegistry<InputBinding>;
 using Uuid = velecs::common::Uuid;
 
 /// @class Action
@@ -103,7 +103,11 @@ public:
     /// @return Const reference to the action name
     inline const std::string& GetName() const { return _name; }
 
-    inline void AddBinding();
+    template<typename T, typename... Args>
+    void AddBinding(const std::string& name, Args&&... args)
+    {
+        auto [binding, uuid] = _bindings.EmplaceAs<T>(name, std::forward<Args>(args)...);
+    }
 
 protected:
     // Protected Fields
@@ -122,7 +126,7 @@ private:
     /// @brief The unique name of this action within its map
     const std::string _name;
 
-    // InputBindingRegistry _bindings;
+    InputBindingRegistry _bindings;
 
     // Private Methods
 };

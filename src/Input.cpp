@@ -10,6 +10,7 @@
 
 #include "velecs/input/Input.hpp"
 
+#include "velecs/input/InputPollingState.hpp"
 #include "velecs/input/ActionProfile.hpp"
 
 using namespace velecs::common;
@@ -31,13 +32,13 @@ void Input::ProcessEvent(const SDL_Event& event)
         case SDL_KEYDOWN:
         {
             SDL_Scancode scancode = event.key.keysym.scancode;
-            _currDownKeys.emplace(scancode);
+            _state.RegisterKey(scancode);
             break;
         }
         case SDL_KEYUP:
         {
             SDL_Scancode scancode = event.key.keysym.scancode;
-            _currDownKeys.erase(scancode);
+            _state.UnregisterKey(scancode);
             break;
         }
     }
@@ -45,45 +46,37 @@ void Input::ProcessEvent(const SDL_Event& event)
 
 void Input::Update()
 {
-    _prevDownKeys = _currDownKeys;
+    // for (auto [name, uuid, profile] : _profiles)
+    // {
+    //     if (!profile.IsEnabled()) continue;
+
+    //     std::cout << "Update: " << profile.GetName() << std::endl;
+    //     profile.Process(_state);
+    //     profile.Disable();
+    // }
+
+    _state.ShiftFrame();
 }
 
-bool Input::IsStarted(const SDL_Scancode keycode)
+bool Input::IsKeyStarted(const SDL_Scancode scancode)
 {
-    auto prevIt = _prevDownKeys.find(keycode);
-    bool prevFlag = prevIt != _prevDownKeys.end();
-
-    auto currIt = _currDownKeys.find(keycode);
-    bool currFlag = currIt != _currDownKeys.end();
-
-    return !prevFlag && currFlag;
+    return _state.IsKeyStarted(scancode);
 }
 
-bool Input::IsPerformed(const SDL_Scancode keycode)
+bool Input::IsKeyPerformed(const SDL_Scancode scancode)
 {
-    auto currIt = _currDownKeys.find(keycode);
-    bool currFlag = currIt != _currDownKeys.end();
-
-    return currFlag;
+    return _state.IsKeyPerformed(scancode);
 }
 
-bool Input::IsCancelled(const SDL_Scancode keycode)
+bool Input::IsKeyCancelled(const SDL_Scancode scancode)
 {
-    auto prevIt = _prevDownKeys.find(keycode);
-    bool prevFlag = prevIt != _prevDownKeys.end();
-
-    auto currIt = _currDownKeys.find(keycode);
-    bool currFlag = currIt != _currDownKeys.end();
-
-    return prevFlag && !currFlag;
+    return _state.IsKeyCancelled(scancode);
 }
 
 ActionProfile& Input::CreateProfile(const std::string& name)
 {
-    auto profile = std::make_unique<ActionProfile>(name, ActionProfile::ConstructorKey{});
-    ActionProfile& profileRef = *profile;
-    auto uuid = _profiles.Add(name, std::move(profile));
-    return profileRef;
+    auto [profile, uuid] = _profiles.Emplace(name, name, ActionProfile::ConstructorKey{});
+    return profile;
 }
 
 // Protected Fields
@@ -92,8 +85,7 @@ ActionProfile& Input::CreateProfile(const std::string& name)
 
 // Private Fields
 
-std::set<SDL_Scancode> Input::_prevDownKeys;
-std::set<SDL_Scancode> Input::_currDownKeys;
+InputPollingState Input::_state;
 
 ActionProfileRegistry Input::_profiles;
 

@@ -22,7 +22,7 @@ namespace velecs::input {
 
 class ActionProfile;
 
-using ActionRegistry = velecs::common::NameUuidRegistry<std::unique_ptr<Action>>;
+using ActionRegistry = velecs::common::NameUuidRegistry<Action>;
 using Uuid = velecs::common::Uuid;
 
 /// @class ActionMap

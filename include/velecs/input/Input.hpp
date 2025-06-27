@@ -21,9 +21,11 @@
 
 namespace velecs::input {
 
-class ActionProfile;
+struct InputPollingState;
 
-using ActionProfileRegistry = velecs::common::NameUuidRegistry<std::unique_ptr<ActionProfile>>;
+class ActionProfile;
+using ActionProfileRegistry = velecs::common::NameUuidRegistry<ActionProfile>;
+
 using Uuid = velecs::common::Uuid;
 
 /// @class Input
@@ -57,9 +59,9 @@ public:
     ///       Must be called before accessing action states for the current frame.
     static void Update();
 
-    static bool IsStarted(const SDL_Scancode keycode);
-    static bool IsPerformed(const SDL_Scancode keycode);
-    static bool IsCancelled(const SDL_Scancode keycode);
+    static bool IsKeyStarted(const SDL_Scancode scancode);
+    static bool IsKeyPerformed(const SDL_Scancode scancode);
+    static bool IsKeyCancelled(const SDL_Scancode scancode);
 
     /// @brief Creates a new input profile
     /// @param name Unique name for the profile
@@ -92,8 +94,7 @@ protected:
 private:
     // Private Fields
 
-    static std::set<SDL_Scancode> _prevDownKeys;
-    static std::set<SDL_Scancode> _currDownKeys;
+    static InputPollingState _state;
 
     static ActionProfileRegistry _profiles;
 

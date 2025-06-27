@@ -23,22 +23,36 @@ endif()
 
 # Source files for the library
 set(LIB_SOURCES
+    src/InputPollingState.cpp
+
     src/Input.cpp
 
     src/ActionProfile.cpp
     src/ActionMap.cpp
     src/Action.cpp
+
+    src/InputStatus.cpp
+
+    src/InputBindings/ButtonBinding.cpp
 )
 
 # Header files for the library (for IDE organization)
 set(LIB_HEADERS
     include/velecs/input/Common.hpp
+
+    include/velecs/input/PollingData.hpp
+    include/velecs/input/InputPollingState.hpp
     
     include/velecs/input/Input.hpp
 
     include/velecs/input/ActionProfile.hpp
     include/velecs/input/ActionMap.hpp
     include/velecs/input/Action.hpp
+
+    include/velecs/input/InputStatus.hpp
+
+    include/velecs/input/InputBindings/InputBinding.hpp
+    include/velecs/input/InputBindings/ButtonBinding.hpp
 )
 
 # Always build the library
