@@ -21,7 +21,7 @@ namespace velecs::input {
 void InputPollingState::ShiftFrame()
 {
     // Copy current state to previous (preserves current for persistent key tracking)
-    previous = std::move(current);
+    previous = current;
 }
 
 void InputPollingState::RegisterKey(SDL_Scancode scancode)

@@ -10,7 +10,7 @@
 
 #include "velecs/input/InputBindings/ButtonBinding.hpp"
 
-#include "velecs/input/InputStatus.hpp"
+#include "velecs/input/InputPollingState.hpp"
 
 #include <stdexcept>
 
@@ -27,18 +27,15 @@ void ButtonBinding::Reset()
     throw std::runtime_error("Function not implemented.");
 }
 
-ButtonBinding::Status ButtonBinding::ProcessStatus(const std::set<SDL_Scancode>& prevDownKeys, const std::set<SDL_Scancode>& currDownKeys)
+ButtonBinding::Status ButtonBinding::ProcessStatus(const InputPollingState& state) const
 {
-    auto prevIt = prevDownKeys.find(_code);
-    bool prevFlag = prevIt != prevDownKeys.end();
-
-    auto currIt = currDownKeys.find(_code);
-    bool currFlag = currIt != currDownKeys.end();
+    const bool wasPressed = state.previous.downKeys.find(_code) != state.previous.downKeys.end();
+    const bool isPressed = state.current.downKeys.find(_code) != state.current.downKeys.end();
 
     Status status = Status::Idle;
-    if (!prevFlag &&  currFlag) status |= Status::Started;
-    if (              currFlag) status |= Status::Performed;
-    if (prevFlag  && !currFlag) status |= Status::Cancelled;
+    if (!wasPressed  &&  isPressed) status |= Status::Started;
+    if (                 isPressed) status |= Status::Performed;
+    if ( wasPressed  && !isPressed) status |= Status::Cancelled;
 
     return status;
 }

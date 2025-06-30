@@ -54,7 +54,8 @@ InputStatus& operator&=(InputStatus& a, const InputStatus b);
 /// @param status The status to check
 /// @param flags The flags to test for
 /// @return true if status contains any of the specified flags
-inline bool HasAnyFlag(const InputStatus status, const InputStatus flags) {
+inline bool HasAnyFlag(const InputStatus status, const InputStatus flags)
+{
     return (status & flags) != InputStatus::Idle;
 }
 
@@ -62,7 +63,8 @@ inline bool HasAnyFlag(const InputStatus status, const InputStatus flags) {
 /// @param status The status to check
 /// @param flags The flags to test for
 /// @return true if status contains all of the specified flags
-inline bool HasAllFlags(const InputStatus status, const InputStatus flags) {
+inline bool HasAllFlags(const InputStatus status, const InputStatus flags)
+{
     return (status & flags) == flags;
 }
 

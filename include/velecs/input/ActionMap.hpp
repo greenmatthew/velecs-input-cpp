@@ -20,9 +20,11 @@
 
 namespace velecs::input {
 
-class ActionProfile;
+struct InputPollingState;
 
+class ActionProfile;
 using ActionRegistry = velecs::common::NameUuidRegistry<Action>;
+
 using Uuid = velecs::common::Uuid;
 
 /// @class ActionMap
@@ -126,6 +128,8 @@ public:
     /// @note Not to be confused with `Disable()` which only affects map-level processing
     /// @see Disable(), EnableAllActions()
     void DisableAllActions();
+
+    void Process(const InputPollingState& state);
 
 protected:
     // Protected Fields

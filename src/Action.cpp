@@ -18,6 +18,21 @@ namespace velecs::input {
 
 // Public Methods
 
+void Action::Process(const InputPollingState& state)
+{
+    if (!IsEnabled()) return;
+
+    Status status = Status::Idle;
+    for (auto [uuid, name, binding] : _bindings)
+    {
+        status |= binding.ProcessStatus(state);
+    }
+
+    if (HasAnyFlag(status, InputStatus::Started)) started.Invoke();
+    if (HasAnyFlag(status, InputStatus::Performed)) performed.Invoke();
+    if (HasAnyFlag(status, InputStatus::Cancelled)) cancelled.Invoke();
+}
+
 // Protected Fields
 
 // Protected Methods

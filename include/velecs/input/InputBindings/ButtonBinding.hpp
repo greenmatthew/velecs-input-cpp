@@ -42,7 +42,7 @@ public:
 
     void Reset() override;
 
-    Status ProcessStatus(const std::set<SDL_Scancode>& prevDownKeys, const std::set<SDL_Scancode>& currDownKeys);
+    Status ProcessStatus(const InputPollingState& state) const override;
 
 protected:
     // Protected Fields

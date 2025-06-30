@@ -42,6 +42,8 @@ using Uuid = velecs::common::Uuid;
 /// @endcode
 class Action {
 public:
+    using Status = InputStatus;
+
     // Enums
 
     // Public Fields
@@ -108,6 +110,8 @@ public:
     {
         auto [binding, uuid] = _bindings.EmplaceAs<T>(name, std::forward<Args>(args)...);
     }
+
+    void Process(const InputPollingState& state);
 
 protected:
     // Protected Fields

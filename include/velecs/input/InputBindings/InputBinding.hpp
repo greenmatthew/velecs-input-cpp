@@ -14,6 +14,8 @@
 
 namespace velecs::input {
 
+struct InputPollingState;
+
 /// @class InputBinding
 /// @brief Brief description.
 ///
@@ -37,6 +39,8 @@ public:
     // Public Methods
 
     virtual void Reset() = 0;
+
+    virtual Status ProcessStatus(const InputPollingState& state) const = 0;
 
 protected:
     // Protected Fields

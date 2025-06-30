@@ -10,6 +10,7 @@
 
 #include "velecs/input/ActionProfile.hpp"
 
+#include "velecs/input/InputPollingState.hpp"
 #include "velecs/input/ActionMap.hpp"
 #include "velecs/input/Action.hpp"
 
@@ -33,6 +34,18 @@ ActionProfile& ActionProfile::AddMap(const std::string& name, std::function<void
     auto [map, uuid] = _maps.Emplace(name, *this, name, ActionMap::ConstructorKey{});
     configurator(map);
     return *this;
+}
+
+void ActionProfile::Process(const InputPollingState& state)
+{
+    if (!IsEnabled()) return;
+
+    for (auto [uuid, name, map] : _maps)
+    {
+        if (!map.IsEnabled()) continue;
+
+        map.Process(state);
+    }
 }
 
 // Protected Fields

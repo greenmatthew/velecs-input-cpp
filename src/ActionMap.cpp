@@ -24,6 +24,35 @@ void ActionMap::AddAction(const std::string& name, std::function<void(Action&)> 
     configurator(action);
 }
 
+void ActionMap::EnableAllActions()
+{
+    for (auto [uuid, name, action] : _actions)
+    {
+        action.Enable();
+    }
+}
+
+void ActionMap::DisableAllActions()
+{
+    for (auto [uuid, name, action] : _actions)
+    {
+        action.Disable();
+    }
+}
+
+void ActionMap::Process(const InputPollingState& state)
+{
+    if (!IsEnabled()) return;
+
+    for (auto [uuid, name, action] : _actions)
+    {
+        if (!action.IsEnabled()) continue;
+
+        action.Process(state);
+    }
+}
+
+
 // Protected Fields
 
 // Protected Methods

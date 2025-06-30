@@ -46,14 +46,12 @@ void Input::ProcessEvent(const SDL_Event& event)
 
 void Input::Update()
 {
-    // for (auto [name, uuid, profile] : _profiles)
-    // {
-    //     if (!profile.IsEnabled()) continue;
+    for (auto [name, uuid, profile] : _profiles)
+    {
+        if (!profile.IsEnabled()) continue;
 
-    //     std::cout << "Update: " << profile.GetName() << std::endl;
-    //     profile.Process(_state);
-    //     profile.Disable();
-    // }
+        profile.Process(_state);
+    }
 
     _state.ShiftFrame();
 }

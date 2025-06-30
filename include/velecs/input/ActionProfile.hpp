@@ -19,6 +19,7 @@
 
 namespace velecs::input {
 
+struct InputPollingState;
 class ActionMap;
 class Action;
 
@@ -115,6 +116,8 @@ public:
     /// @param outMap Reference to store pointer to the action map if found
     /// @return true if action map was found, false otherwise
     inline bool TryGetMap(const std::string& name, ActionMap*& outMap) const { return _maps.TryGetRef(name, outMap); }
+
+    void Process(const InputPollingState& state);
 
 protected:
     // Protected Fields
