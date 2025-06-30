@@ -11,10 +11,15 @@
 #pragma once
 
 #include "velecs/input/InputStatus.hpp"
+#include "velecs/input/InputBindings/InputBindingContext.hpp"
+#include "velecs/input/ModifierKey.hpp"
+
+#include <SDL2/SDL_scancode.h>
 
 namespace velecs::input {
 
 struct InputPollingState;
+struct PollingData;
 
 /// @class InputBinding
 /// @brief Brief description.
@@ -38,14 +43,14 @@ public:
 
     // Public Methods
 
-    virtual void Reset() = 0;
-
-    virtual Status ProcessStatus(const InputPollingState& state) const = 0;
+    virtual Status ProcessStatus(const InputPollingState& state, InputBindingContext& outContext) const = 0;
 
 protected:
     // Protected Fields
 
     // Protected Methods
+
+    ModifierKey CheckActiveModifiers(const PollingData& data) const;
 
 private:
     // Private Fields

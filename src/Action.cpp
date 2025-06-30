@@ -22,15 +22,15 @@ void Action::Process(const InputPollingState& state)
 {
     if (!IsEnabled()) return;
 
-    Status status = Status::Idle;
     for (auto [uuid, name, binding] : _bindings)
     {
-        status |= binding.ProcessStatus(state);
+        InputBindingContext context;
+        Status status = binding.ProcessStatus(state, context);
+        if (HasAnyFlag(status, InputStatus::Started)) started.Invoke(context);
+        if (HasAnyFlag(status, InputStatus::Performed)) performed.Invoke(context);
+        if (HasAnyFlag(status, InputStatus::Cancelled)) cancelled.Invoke(context);
+        if (status != Status::Idle) break;
     }
-
-    if (HasAnyFlag(status, InputStatus::Started)) started.Invoke();
-    if (HasAnyFlag(status, InputStatus::Performed)) performed.Invoke();
-    if (HasAnyFlag(status, InputStatus::Cancelled)) cancelled.Invoke();
 }
 
 // Protected Fields

@@ -12,16 +12,14 @@
 
 #include "velecs/input/InputBindings/InputBinding.hpp"
 
-#include <SDL2/SDL.h>
-
-#include <set>
-
 namespace velecs::input {
 
 /// @class ButtonBinding
-/// @brief Brief description.
+/// @brief Input binding for single button/key press detection
 ///
-/// Rest of description.
+/// Monitors a specific SDL scancode and reports Started/Performed/Cancelled states
+/// based on key press and release events. Essential building block for button-based
+/// input actions like jump, fire, interact, etc.
 class ButtonBinding : public InputBinding {
 public:
     // Enums
@@ -30,19 +28,23 @@ public:
 
     // Constructors and Destructors
 
-    inline ButtonBinding(SDL_Scancode code) : _code(code) {}
+    /// @brief Constructs a ButtonBinding for the specified scancode
+    /// @param scancode SDL scancode to monitor for input events
+    inline explicit ButtonBinding(SDL_Scancode scancode) : _scancode(scancode) {}
 
-    /// @brief Default constructor.
-    ButtonBinding() = default;
+    /// @brief Default constructor is deleted - ButtonBinding requires params
+    ButtonBinding() = delete;
 
-    /// @brief Default deconstructor.
+    /// @brief Virtual destructor
     ~ButtonBinding() override = default;
 
     // Public Methods
 
-    void Reset() override;
+    Status ProcessStatus(const InputPollingState& state, InputBindingContext& outContext) const override;
 
-    Status ProcessStatus(const InputPollingState& state) const override;
+    /// @brief Gets the SDL scancode this binding monitors
+    /// @return The scancode this binding is configured for
+    SDL_Scancode GetScancode() const { return _scancode; }
 
 protected:
     // Protected Fields
@@ -52,7 +54,8 @@ protected:
 private:
     // Private Fields
 
-    const SDL_Scancode _code;
+    /// @brief The SDL scancode this binding monitors for input
+    const SDL_Scancode _scancode;
 
     // Private Methods
 };

@@ -22,12 +22,7 @@ namespace velecs::input {
 
 // Public Methods
 
-void ButtonBinding::Reset()
-{
-    throw std::runtime_error("Function not implemented.");
-}
-
-ButtonBinding::Status ButtonBinding::ProcessStatus(const InputPollingState& state) const
+ButtonBinding::Status ButtonBinding::ProcessStatus(const InputPollingState& state, InputBindingContext& outContext) const
 {
     const bool wasPressed = state.previous.IsKeyDown(_scancode);
     const bool isPressed = state.current.IsKeyDown(_scancode);
@@ -36,6 +31,11 @@ ButtonBinding::Status ButtonBinding::ProcessStatus(const InputPollingState& stat
     if (!wasPressed  &&  isPressed) status |= Status::Started;
     if (                 isPressed) status |= Status::Performed;
     if ( wasPressed  && !isPressed) status |= Status::Cancelled;
+
+    outContext = InputBindingContext{};
+    outContext.valueType = InputBindingContext::ValueType::Bool;
+    outContext.boolVal = isPressed;
+    outContext.activeScancodes = isPressed ? _scancode : SDL_SCANCODE_UNKNOWN;
 
     return status;
 }

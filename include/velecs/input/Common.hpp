@@ -16,5 +16,5 @@
 #include "velecs/input/ActionMap.hpp"
 #include "velecs/input/Action.hpp"
 
-#include "velecs/input/InputBindings/InputBinding.hpp"
 #include "velecs/input/InputBindings/ButtonBinding.hpp"
+#include "velecs/input/InputBindings/Vec2Binding.hpp"

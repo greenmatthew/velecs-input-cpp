@@ -21,8 +21,6 @@ namespace velecs::input {
 
 class ActionMap;
 
-using Event = velecs::common::Event<>;
-
 using InputBindingRegistry = velecs::common::NameUuidRegistry<InputBinding>;
 using Uuid = velecs::common::Uuid;
 
@@ -49,13 +47,13 @@ public:
     // Public Fields
 
     /// @brief Event triggered when the action starts (e.g., button press begins)
-    Event started;
+    velecs::common::Event<InputBindingContext> started;
     
     /// @brief Event triggered when the action is performed (e.g., button press completes)
-    Event performed;
+    velecs::common::Event<InputBindingContext> performed;
     
     /// @brief Event triggered when the action is cancelled (e.g., button release before completion)
-    Event cancelled;
+    velecs::common::Event<InputBindingContext> cancelled;
 
     // Constructors and Destructors
 
