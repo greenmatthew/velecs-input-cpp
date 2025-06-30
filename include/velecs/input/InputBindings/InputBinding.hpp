@@ -12,7 +12,6 @@
 
 #include "velecs/input/InputStatus.hpp"
 #include "velecs/input/InputBindings/InputBindingContext.hpp"
-#include "velecs/input/ModifierKey.hpp"
 
 #include <SDL2/SDL_scancode.h>
 
@@ -49,8 +48,6 @@ protected:
     // Protected Fields
 
     // Protected Methods
-
-    ModifierKey CheckActiveModifiers(const PollingData& data) const;
 
 private:
     // Private Fields

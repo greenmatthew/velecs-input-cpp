@@ -24,19 +24,7 @@ void InputPollingState::ShiftFrame()
     previous = current;
 }
 
-void InputPollingState::RegisterKey(SDL_Scancode scancode)
-{
-    // Add key to current frame's pressed keys set
-    current.downKeys.emplace(scancode);
-}
-
-void InputPollingState::UnregisterKey(SDL_Scancode scancode)
-{
-    // Remove key from current frame's pressed keys set
-    current.downKeys.erase(scancode);
-}
-
-bool InputPollingState::IsKeyStarted(SDL_Scancode scancode) const
+bool InputPollingState::IsKeyStarted(const SDL_Scancode scancode) const
 {
     // Key just started: wasn't pressed last frame, is pressed this frame
     bool wasPressed = previous.IsKeyDown(scancode);
@@ -44,14 +32,14 @@ bool InputPollingState::IsKeyStarted(SDL_Scancode scancode) const
     return !wasPressed && isPressed;
 }
 
-bool InputPollingState::IsKeyPerformed(SDL_Scancode scancode) const
+bool InputPollingState::IsKeyPerformed(const SDL_Scancode scancode) const
 {
     // Key is being performed: currently pressed this frame
     bool isPressed = current.IsKeyDown(scancode);
     return isPressed;
 }
 
-bool InputPollingState::IsKeyCancelled(SDL_Scancode scancode) const
+bool InputPollingState::IsKeyCancelled(const SDL_Scancode scancode) const
 {
     // Key was cancelled: was pressed last frame, not pressed this frame
     bool wasPressed = previous.IsKeyDown(scancode);

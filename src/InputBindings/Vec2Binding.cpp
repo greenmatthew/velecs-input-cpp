@@ -35,16 +35,16 @@ Vec2Binding::Status Vec2Binding::ProcessStatus(const InputPollingState& state, I
     if (                      isPastDeadzone) status |= Status::Performed;
     if ( wasPastDeadzone  && !isPastDeadzone) status |= Status::Cancelled;
 
-    outContext = InputBindingContext{};
     outContext.valueType = InputBindingContext::ValueType::Vec2;
     outContext.vec2Val = curr;
-    outContext.activeScancodes = isPastDeadzone ? (SDL_Scancode)(
-        (state.current.IsKeyDown(_posXScancode) ?  _posXScancode : SDL_SCANCODE_UNKNOWN)
-        | (state.current.IsKeyDown(_negXScancode) ? _negXScancode : SDL_SCANCODE_UNKNOWN)
-        | (state.current.IsKeyDown(_posYScancode) ? _posYScancode : SDL_SCANCODE_UNKNOWN)
-        | (state.current.IsKeyDown(_negYScancode) ? _negYScancode : SDL_SCANCODE_UNKNOWN))
-        : SDL_SCANCODE_UNKNOWN;
+    if (isPastDeadzone)
+    {
+        if (state.current.IsKeyDown(_posXScancode)) outContext.activePrimaryScancode = _posXScancode;
+        else if (state.current.IsKeyDown(_negXScancode)) outContext.activePrimaryScancode = _negXScancode;
 
+        if (state.current.IsKeyDown(_posYScancode)) outContext.activeSecondaryScancode = _posYScancode;
+        else if (state.current.IsKeyDown(_negYScancode)) outContext.activeSecondaryScancode = _negYScancode;
+    }
     return status;
 }
 

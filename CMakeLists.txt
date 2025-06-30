@@ -31,9 +31,6 @@ set(LIB_SOURCES
     src/ActionMap.cpp
     src/Action.cpp
 
-    src/InputStatus.cpp
-
-    src/InputBindings/InputBinding.cpp
     src/InputBindings/ButtonBinding.cpp
     src/InputBindings/Vec2Binding.cpp
 )
@@ -52,7 +49,6 @@ set(LIB_HEADERS
     include/velecs/input/Action.hpp
 
     include/velecs/input/InputStatus.hpp
-    include/velecs/input/ModifierKey.hpp
 
     include/velecs/input/InputBindings/InputBinding.hpp
     include/velecs/input/InputBindings/ButtonBinding.hpp

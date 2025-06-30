@@ -32,13 +32,13 @@ void Input::ProcessEvent(const SDL_Event& event)
         case SDL_KEYDOWN:
         {
             SDL_Scancode scancode = event.key.keysym.scancode;
-            _state.RegisterKey(scancode);
+            _state.current.RegisterKey(scancode);
             break;
         }
         case SDL_KEYUP:
         {
             SDL_Scancode scancode = event.key.keysym.scancode;
-            _state.UnregisterKey(scancode);
+            _state.current.UnregisterKey(scancode);
             break;
         }
     }
@@ -46,6 +46,8 @@ void Input::ProcessEvent(const SDL_Event& event)
 
 void Input::Update()
 {
+    _state.current.keymods = SDL_GetModState();
+
     for (auto [name, uuid, profile] : _profiles)
     {
         if (!profile.IsEnabled()) continue;

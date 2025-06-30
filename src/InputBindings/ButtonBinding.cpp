@@ -32,10 +32,9 @@ ButtonBinding::Status ButtonBinding::ProcessStatus(const InputPollingState& stat
     if (                 isPressed) status |= Status::Performed;
     if ( wasPressed  && !isPressed) status |= Status::Cancelled;
 
-    outContext = InputBindingContext{};
     outContext.valueType = InputBindingContext::ValueType::Bool;
     outContext.boolVal = isPressed;
-    outContext.activeScancodes = isPressed ? _scancode : SDL_SCANCODE_UNKNOWN;
+    outContext.activePrimaryScancode = isPressed ? _scancode : SDL_SCANCODE_UNKNOWN;
 
     return status;
 }

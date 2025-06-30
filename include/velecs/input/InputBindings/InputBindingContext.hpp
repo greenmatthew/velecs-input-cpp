@@ -10,11 +10,10 @@
 
 #pragma once
 
-#include "velecs/input/ModifierKey.hpp"
-
 #include <velecs/math/Vec2.hpp>
 
 #include <SDL2/SDL_scancode.h>
+#include <SDL2/SDL_keycode.h>
 
 namespace velecs::input {
 
@@ -78,12 +77,11 @@ public:
     /// @note For ButtonBinding: the single key pressed
     /// @note For Vec2Binding: combined/representative scancode (implementation detail)
     /// @note May be SDL_SCANCODE_UNKNOWN for complex multi-key bindings
-    SDL_Scancode activeScancodes{SDL_SCANCODE_UNKNOWN};
+    SDL_Scancode activePrimaryScancode{SDL_SCANCODE_UNKNOWN};
 
-    /// @brief Modifier keys that were active when this binding was processed
-    /// @note Always populated regardless of binding type
-    /// @note Allows actions to behave differently based on Ctrl/Shift/Alt state
-    ModifierKey activeModifiers{ModifierKey::None};
+    SDL_Scancode activeSecondaryScancode{SDL_SCANCODE_UNKNOWN};
+
+    SDL_Keymod activeKeymods{KMOD_NONE};
 
     // Constructors and Destructors
 
@@ -143,8 +141,43 @@ public:
     inline bool IsVec2() const { return valueType == ValueType::Vec2; }
 
     /// @brief Checks if any modifier keys are currently active
-    /// @return true if any modifier keys (Ctrl, Shift, Alt, etc.) are pressed
-    inline bool HasModifiers() const { return activeModifiers != ModifierKey::None; }
+    /// @return true if any modifier keys (Ctrl, Shift, Alt, etc.) are active
+    /// @note Convenience method to check if activeKeymods is not KMOD_NONE
+    /// @see HasAnyModifiers(SDL_Keymod), HasAllModifiers()
+    inline bool HasAnyModifiers() const
+    { 
+        return activeKeymods != KMOD_NONE; 
+    }
+
+    /// @brief Checks if any of the specified modifier keys are currently active
+    /// @param mods The SDL_Keymod flags to test for (can be combined with | operator)
+    /// @return true if any of the specified modifiers are active, false otherwise
+    /// @note Uses bitwise AND to test for modifier presence
+    /// @see HasAnyModifiers(), HasAllModifiers()
+    /// @code
+    /// if (ctx.HasAnyModifiers(KMOD_CTRL | KMOD_SHIFT)) {
+    ///     // Either Ctrl OR Shift (or both) was active when binding triggered
+    /// }
+    /// @endcode
+    inline bool HasAnyModifiers(const SDL_Keymod mods) const
+    { 
+        return (activeKeymods & mods) != 0; 
+    }
+
+    /// @brief Checks if all of the specified modifier keys are currently active
+    /// @param mods The SDL_Keymod flags that must all be active
+    /// @return true if all specified modifiers are active, false otherwise
+    /// @note Uses bitwise AND to verify all modifiers are present
+    /// @see HasAnyModifiers(), HasAnyModifiers(SDL_Keymod)
+    /// @code
+    /// if (ctx.HasAllModifiers(KMOD_CTRL | KMOD_SHIFT)) {
+    ///     // Both Ctrl AND Shift were active when binding triggered
+    /// }
+    /// @endcode
+    inline bool HasAllModifiers(const SDL_Keymod mods) const
+    { 
+        return (activeKeymods & mods) == mods; 
+    }
 
 protected:
     // Protected Fields

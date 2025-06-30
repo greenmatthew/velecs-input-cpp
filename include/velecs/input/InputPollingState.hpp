@@ -70,38 +70,26 @@ public:
     /// @note Use RegisterKey/UnregisterKey to modify current state based on SDL events
     void ShiftFrame();
 
-    /// @brief Registers a key as currently pressed
-    /// @param scancode The SDL scancode to register as pressed
-    /// @note Should be called in response to SDL_KEYDOWN events
-    /// @see UnregisterKey()
-    void RegisterKey(SDL_Scancode scancode);
-
-    /// @brief Unregisters a key as no longer pressed  
-    /// @param scancode The SDL scancode to unregister
-    /// @note Should be called in response to SDL_KEYUP events
-    /// @see RegisterKey()
-    void UnregisterKey(SDL_Scancode scancode);
-
     /// @brief Checks if a scancode was just pressed this frame (not pressed last frame, pressed this frame)
     /// @param scancode The SDL scancode to check
     /// @return true if the key was just pressed, false otherwise
     /// @note Detects the "started" input event - transition from released to pressed
     /// @see IsKeyPerformed(), IsKeyCancelled()
-    bool IsKeyStarted(SDL_Scancode scancode) const;
+    bool IsKeyStarted(const SDL_Scancode scancode) const;
 
     /// @brief Checks if a scancode is currently held down this frame
     /// @param scancode The SDL scancode to check
     /// @return true if the key is currently pressed, false otherwise
     /// @note Detects the "performed" input event - key is actively held down
     /// @see IsKeyStarted(), IsKeyCancelled()
-    bool IsKeyPerformed(SDL_Scancode scancode) const;
+    bool IsKeyPerformed(const SDL_Scancode scancode) const;
 
     /// @brief Checks if a scancode was just released this frame (pressed last frame, not pressed this frame)
     /// @param scancode The SDL scancode to check
     /// @return true if the key was just released, false otherwise
     /// @note Detects the "cancelled" input event - transition from pressed to released
     /// @see IsKeyStarted(), IsKeyPerformed()
-    bool IsKeyCancelled(SDL_Scancode scancode) const;
+    bool IsKeyCancelled(const SDL_Scancode scancode) const;
 
 protected:
     // Protected Fields

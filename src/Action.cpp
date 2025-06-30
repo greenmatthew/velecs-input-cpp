@@ -10,6 +10,8 @@
 
 #include "velecs/input/Action.hpp"
 
+#include "velecs/input/InputPollingState.hpp"
+
 namespace velecs::input {
 
 // Public Fields
@@ -24,7 +26,8 @@ void Action::Process(const InputPollingState& state)
 
     for (auto [uuid, name, binding] : _bindings)
     {
-        InputBindingContext context;
+        InputBindingContext context{};
+        context.activeKeymods = state.current.keymods;
         Status status = binding.ProcessStatus(state, context);
         if (HasAnyFlag(status, InputStatus::Started)) started.Invoke(context);
         if (HasAnyFlag(status, InputStatus::Performed)) performed.Invoke(context);
