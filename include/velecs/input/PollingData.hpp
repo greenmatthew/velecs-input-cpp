@@ -59,6 +59,9 @@ public:
 
     // Public Methods
 
+    inline bool IsKeyDown(SDL_Scancode scancode) const { return downKeys.find(scancode) != downKeys.end(); }
+    inline bool IsKeyUp(SDL_Scancode scancode) const { return downKeys.find(scancode) == downKeys.end(); }
+
 protected:
     // Protected Fields
 

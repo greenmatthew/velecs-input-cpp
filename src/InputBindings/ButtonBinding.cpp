@@ -29,9 +29,9 @@ void ButtonBinding::Reset()
 
 ButtonBinding::Status ButtonBinding::ProcessStatus(const InputPollingState& state) const
 {
-    const bool wasPressed = state.previous.downKeys.find(_code) != state.previous.downKeys.end();
-    const bool isPressed = state.current.downKeys.find(_code) != state.current.downKeys.end();
-
+    const bool wasPressed = state.previous.IsKeyDown(_scancode);
+    const bool isPressed = state.current.IsKeyDown(_scancode);
+    
     Status status = Status::Idle;
     if (!wasPressed  &&  isPressed) status |= Status::Started;
     if (                 isPressed) status |= Status::Performed;

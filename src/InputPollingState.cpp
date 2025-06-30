@@ -39,23 +39,23 @@ void InputPollingState::UnregisterKey(SDL_Scancode scancode)
 bool InputPollingState::IsKeyStarted(SDL_Scancode scancode) const
 {
     // Key just started: wasn't pressed last frame, is pressed this frame
-    bool wasPressed = previous.downKeys.find(scancode) != previous.downKeys.end();
-    bool isPressed = current.downKeys.find(scancode) != current.downKeys.end();
+    bool wasPressed = previous.IsKeyDown(scancode);
+    bool isPressed = current.IsKeyDown(scancode);
     return !wasPressed && isPressed;
 }
 
 bool InputPollingState::IsKeyPerformed(SDL_Scancode scancode) const
 {
     // Key is being performed: currently pressed this frame
-    bool isPressed = current.downKeys.find(scancode) != current.downKeys.end();
+    bool isPressed = current.IsKeyDown(scancode);
     return isPressed;
 }
 
 bool InputPollingState::IsKeyCancelled(SDL_Scancode scancode) const
 {
     // Key was cancelled: was pressed last frame, not pressed this frame
-    bool wasPressed = previous.downKeys.find(scancode) != previous.downKeys.end();
-    bool isPressed = current.downKeys.find(scancode) != current.downKeys.end();
+    bool wasPressed = previous.IsKeyDown(scancode);
+    bool isPressed = current.IsKeyDown(scancode);
     return wasPressed && !isPressed;
 }
 
