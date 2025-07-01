@@ -18,10 +18,11 @@ namespace velecs::input {
 
 // Public Methods
 
-void ActionMap::AddAction(const std::string& name, std::function<void(Action&)> configurator)
+ActionMap& ActionMap::AddAction(const std::string& name, std::function<void(Action&)> configurator)
 {
     auto [action, uuid] = _actions.Emplace(name, *this, name, Action::ConstructorKey{});
     configurator(action);
+    return *this;
 }
 
 void ActionMap::EnableAllActions()

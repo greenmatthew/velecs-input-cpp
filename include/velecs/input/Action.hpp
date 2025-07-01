@@ -104,9 +104,10 @@ public:
     inline const std::string& GetName() const { return _name; }
 
     template<typename T, typename... Args>
-    void AddBinding(const std::string& name, Args&&... args)
+    Action& AddBinding(const std::string& name, Args&&... args)
     {
         auto [binding, uuid] = _bindings.EmplaceAs<T>(name, std::forward<Args>(args)...);
+        return *this;
     }
 
     void Process(const InputPollingState& state);

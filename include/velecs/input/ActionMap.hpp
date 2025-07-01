@@ -101,7 +101,7 @@ public:
     /// @param name Unique name for the action within this map
     /// @param configurator Function to configure the newly created action
     /// @throws std::runtime_error if action with same name already exists in this map
-    void AddAction(const std::string& name, std::function<void(Action&)> configurator);
+    ActionMap& AddAction(const std::string& name, std::function<void(Action&)> configurator);
 
     /// @brief Attempts to retrieve an action by UUID
     /// @param uuid UUID of the action to retrieve
