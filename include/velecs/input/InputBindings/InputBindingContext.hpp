@@ -12,8 +12,8 @@
 
 #include <velecs/math/Vec2.hpp>
 
-#include <SDL2/SDL_scancode.h>
-#include <SDL2/SDL_keycode.h>
+#include <SDL3/SDL_scancode.h>
+#include <SDL3/SDL_keycode.h>
 
 namespace velecs::input {
 
@@ -81,7 +81,7 @@ public:
 
     SDL_Scancode activeSecondaryScancode{SDL_SCANCODE_UNKNOWN};
 
-    SDL_Keymod activeKeymods{KMOD_NONE};
+    SDL_Keymod activeKeymods{SDL_KMOD_NONE};
 
     // Constructors and Destructors
 
@@ -146,7 +146,7 @@ public:
     /// @see HasAnyModifiers(SDL_Keymod), HasAllModifiers()
     inline bool HasAnyModifiers() const
     { 
-        return activeKeymods != KMOD_NONE; 
+        return activeKeymods != SDL_KMOD_NONE; 
     }
 
     /// @brief Checks if any of the specified modifier keys are currently active

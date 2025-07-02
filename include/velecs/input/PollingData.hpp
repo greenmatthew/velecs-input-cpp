@@ -10,8 +10,8 @@
 
 #pragma once
 
-#include <SDL2/SDL_scancode.h>
-#include <SDL2/SDL_keycode.h>
+#include <SDL3/SDL_scancode.h>
+#include <SDL3/SDL_keycode.h>
 
 #include <set>
 
@@ -39,7 +39,7 @@ public:
     /// @note Includes both physical modifier keys (Ctrl, Shift, Alt) and toggle states (Caps Lock, Num Lock)
     /// @note Should be updated once per frame using SDL_GetModState() to capture toggle key states
     /// @note Combines KMOD_* flags using bitwise OR operations
-    SDL_Keymod keymods{KMOD_NONE};
+    SDL_Keymod keymods{SDL_KMOD_NONE};
 
     // Future addition examples:
     // Vec2 mousePos{Vec2::ZERO};
@@ -113,11 +113,11 @@ public:
 
     /// @brief Checks if any modifier keys are currently active
     /// @return true if any modifier keys (Ctrl, Shift, Alt, etc.) are active
-    /// @note Convenience method to check if keymods is not KMOD_NONE
+    /// @note Convenience method to check if keymods is not SDL_KMOD_NONE
     /// @see HasAnyModifier(SDL_Keymod), HasAllModifiers()
     inline bool HasAnyModifier() const
     {
-        return keymods != KMOD_NONE;
+        return keymods != SDL_KMOD_NONE;
     }
 
     /// @brief Checks if any of the specified modifier keys are currently active

@@ -29,15 +29,15 @@ void Input::ProcessEvent(const SDL_Event& event)
 {
     switch (event.type)
     {
-        case SDL_KEYDOWN:
+        case SDL_EVENT_KEY_DOWN:
         {
-            SDL_Scancode scancode = event.key.keysym.scancode;
+            SDL_Scancode scancode = event.key.scancode;
             _state.current.RegisterKey(scancode);
             break;
         }
-        case SDL_KEYUP:
+        case SDL_EVENT_KEY_UP:
         {
-            SDL_Scancode scancode = event.key.keysym.scancode;
+            SDL_Scancode scancode = event.key.scancode;
             _state.current.UnregisterKey(scancode);
             break;
         }

@@ -13,7 +13,7 @@
 #include "velecs/input/InputStatus.hpp"
 #include "velecs/input/InputBindings/InputBindingContext.hpp"
 
-#include <SDL2/SDL_scancode.h>
+#include <SDL3/SDL_scancode.h>
 
 namespace velecs::input {
 
