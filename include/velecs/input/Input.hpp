@@ -86,6 +86,8 @@ public:
         return _profiles.TryGetRef(name, outProfile);
     }
 
+    static void CreateDefaultProfile();
+
 protected:
     // Protected Fields
 

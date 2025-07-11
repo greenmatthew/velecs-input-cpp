@@ -54,6 +54,7 @@ set(LIB_HEADERS
 
     include/velecs/input/InputStatus.hpp
 
+    include/velecs/input/InputBindings/Common.hpp
     include/velecs/input/InputBindings/InputBinding.hpp
     include/velecs/input/InputBindings/ButtonBinding.hpp
     include/velecs/input/InputBindings/Vec2Binding.hpp

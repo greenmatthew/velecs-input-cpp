@@ -1,6 +1,6 @@
 /// @file    Common.hpp
 /// @author  Matthew Green
-/// @date    2025-05-26 14:27:30
+/// @date    2025-07-11 12:25:05
 /// 
 /// @section LICENSE
 /// 
@@ -10,10 +10,5 @@
 
 #pragma once
 
-#include "velecs/input/Input.hpp"
-
-#include "velecs/input/ActionProfile.hpp"
-#include "velecs/input/ActionMap.hpp"
-#include "velecs/input/Action.hpp"
-
-#include "velecs/input/InputBindings/Common.hpp"
+#include "velecs/input/InputBindings/ButtonBinding.hpp"
+#include "velecs/input/InputBindings/Vec2Binding.hpp"
