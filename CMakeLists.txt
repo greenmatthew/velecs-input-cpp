@@ -21,10 +21,6 @@ if(NOT TARGET velecs-math)
     add_subdirectory(../velecs-math ${CMAKE_BINARY_DIR}/velecs-math)
 endif()
 
-if(NOT TARGET SDL3)
-    add_subdirectory(../velecs-deps ${CMAKE_BINARY_DIR}/velecs-deps)
-endif()
-
 # Source files for the library
 set(LIB_SOURCES
     src/InputPollingState.cpp
@@ -72,7 +68,7 @@ target_include_directories(velecs-input
 target_link_libraries(velecs-input
     PUBLIC velecs-common
     PUBLIC velecs-math
-    PUBLIC SDL3
+    PUBLIC SDL3::SDL3
 )
 
 if(NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
