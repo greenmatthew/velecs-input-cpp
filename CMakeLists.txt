@@ -13,6 +13,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+get_property(VELECS_DEPS_LOADED GLOBAL PROPERTY VELECS_DEPS_LOADED)
+if(NOT VELECS_DEPS_LOADED)
+    add_subdirectory(../velecs-deps ${CMAKE_BINARY_DIR}/velecs-deps)
+endif()
+
 if(NOT TARGET velecs-common)
     add_subdirectory(../velecs-common ${CMAKE_BINARY_DIR}/velecs-common)
 endif()
