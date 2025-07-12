@@ -71,9 +71,9 @@ target_include_directories(velecs-input
 )
 
 target_link_libraries(velecs-input
+    PUBLIC SDL3::SDL3
     PUBLIC velecs-common
     PUBLIC velecs-math
-    PUBLIC SDL3::SDL3
 )
 
 if(NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
