@@ -49,9 +49,9 @@ public:
     // Public Methods
 
     /// @brief Processes an SDL event and updates current frame input state
-    /// @param event The SDL event to process (keyboard, mouse, controller, window focus, etc.)
+    /// @param event An SDL event pointer to process (keyboard, mouse, controller, window focus, etc.)
     /// @note Called by velecs-engine for each event in the SDL event queue
-    static void ProcessEvent(const SDL_Event& event);
+    static void ProcessEvent(const SDL_Event* const event);
 
     /// @brief Updates input state transitions and triggers action callbacks
     /// @note Call once per frame after all ProcessEvent calls to finalize input state.

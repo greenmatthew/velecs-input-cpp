@@ -28,15 +28,15 @@ namespace velecs::input {
 
 // Public Methods
 
-void Input::ProcessEvent(const SDL_Event& event)
+void Input::ProcessEvent(const SDL_Event* const event)
 {
-    switch (event.type)
+    switch (event->type)
     {
         // Keyboard Events
         case SDL_EVENT_KEY_DOWN:
         {
-            SDL_KeyboardID keyboardId = event.key.which;
-            SDL_Scancode scancode = event.key.scancode;
+            SDL_KeyboardID keyboardId = event->key.which;
+            SDL_Scancode scancode = event->key.scancode;
             _state.current.RegisterKey(scancode);
             // _state.current.RegisterKey(keyboardId, scancode);
             break;
@@ -44,8 +44,8 @@ void Input::ProcessEvent(const SDL_Event& event)
         case SDL_EVENT_KEY_UP:
         {
             
-            SDL_KeyboardID keyboardId = event.key.which;
-            SDL_Scancode scancode = event.key.scancode;
+            SDL_KeyboardID keyboardId = event->key.which;
+            SDL_Scancode scancode = event->key.scancode;
             _state.current.UnregisterKey(scancode);
             // _state.current.UnregisterKey(keyboardId, scancode);
             break;
@@ -53,13 +53,13 @@ void Input::ProcessEvent(const SDL_Event& event)
 
         case SDL_EVENT_KEYBOARD_ADDED:
         {
-            SDL_KeyboardID keyboardId = event.kdevice.which;
+            SDL_KeyboardID keyboardId = event->kdevice.which;
             // _state.current.RegistryKeyboard(keyboardId);
             break;
         }
         case SDL_EVENT_KEYBOARD_REMOVED:
         {
-            SDL_KeyboardID keyboardId = event.kdevice.which;
+            SDL_KeyboardID keyboardId = event->kdevice.which;
             // _state.current.UnregisterKeyboard(keyboardId);
             break;
         }
@@ -67,36 +67,36 @@ void Input::ProcessEvent(const SDL_Event& event)
         // Gamepad Events
         case SDL_EVENT_GAMEPAD_AXIS_MOTION:
         {
-            SDL_JoystickID gamepadId = event.gaxis.which;
-            SDL_GamepadAxis axis = (SDL_GamepadAxis)event.gaxis.axis;
+            SDL_JoystickID gamepadId = event->gaxis.which;
+            SDL_GamepadAxis axis = (SDL_GamepadAxis)event->gaxis.axis;
             // Normalize to -1.0 to 1.0 (or 0.0 to 1.0 if a trigger or similar)
-            float normalizedValue = std::clamp(event.gaxis.value / 32767.0f, -1.0f, 1.0f);
+            float normalizedValue = std::clamp(event->gaxis.value / 32767.0f, -1.0f, 1.0f);
             // _state.current.RegisterGamepadAxis(gamepadId, axis, normalizedValue);
             break;
         }
         case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
         {
-            SDL_JoystickID gamepadId = event.gbutton.which;
-            SDL_GamepadButton gamepadButton = (SDL_GamepadButton)event.gbutton.button;
+            SDL_JoystickID gamepadId = event->gbutton.which;
+            SDL_GamepadButton gamepadButton = (SDL_GamepadButton)event->gbutton.button;
             // _state.current.RegisterGamepadButton(gamepadId, gamepadButton);
             break;
         }
         case SDL_EVENT_GAMEPAD_BUTTON_UP:
         {
-            SDL_JoystickID gamepadId = event.gbutton.which;
-            SDL_GamepadButton gamepadButton = (SDL_GamepadButton)event.gbutton.button;
+            SDL_JoystickID gamepadId = event->gbutton.which;
+            SDL_GamepadButton gamepadButton = (SDL_GamepadButton)event->gbutton.button;
             // _state.current.UnregisterGamepadButton(gamepadId, gamepadButton);
             break;
         }
         case SDL_EVENT_GAMEPAD_ADDED:
         {
-            SDL_JoystickID gamepadId = event.gdevice.which;
+            SDL_JoystickID gamepadId = event->gdevice.which;
             // _state.current.RegisterGamepad(gamepadId);
             break;
         }
         case SDL_EVENT_GAMEPAD_REMOVED:
         {
-            SDL_JoystickID gamepadId = event.gdevice.which;
+            SDL_JoystickID gamepadId = event->gdevice.which;
             // _state.current.UnregisterGamepad(gamepadId);
             break;
         }
